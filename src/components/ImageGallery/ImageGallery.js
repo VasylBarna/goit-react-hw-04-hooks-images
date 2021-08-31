@@ -21,11 +21,6 @@ export default function ImageGallery({ imageName }) {
     apiService.query = imageName;
     setLoading(true);
     getImages();
-
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
   }, [imageName]);
 
   const toggleModal = () => {
@@ -46,6 +41,12 @@ export default function ImageGallery({ imageName }) {
     apiService
       .fetchImages()
       .then(({ hits }) => setImages(prevState => [...prevState, ...hits]))
+      .then(() => {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
+      })
       .catch(error => console.log(error))
       .finally(setLoading(false));
   };
